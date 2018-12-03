@@ -1,5 +1,6 @@
 package com.example.almu.pokedex2018;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,9 +13,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    TextView txt1,txt2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +55,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //cosas
+        txt1 = findViewById(R.id.txtName);
+        txt2 = findViewById(R.id.txtName2);
+
+        Servicio servicio = new Servicio();
+        servicio.execute();
     }
 
     @Override
@@ -97,5 +118,57 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    //usando la api
+    public class Servicio extends AsyncTask<Void,Void,String> {
+
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            //super.onPostExecute(s);
+
+            txt1.setText(s);
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String cadena = "https://pokeapi.co/api/v2/pokemon/1/";
+            URL url = null;
+            try {
+                url = new URL(cadena);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("User-Agent","Mozilla/5.0 (Linux; Android 1.5; es-Es) Ejemplo HTTP");
+
+                int respuesta = connection.getResponseCode();
+                if(respuesta == HttpURLConnection.HTTP_OK)
+                {
+                    InputStream in = new BufferedInputStream(connection.getErrorStream());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                    StringBuilder result = new StringBuilder();
+
+                    String line;
+                    while((line = reader.readLine())!= null)
+                    {
+                        result.append(line);
+                    }
+
+                    JSONObject respuestaJSON = new JSONObject(result.toString());
+
+                    return respuestaJSON.get("error_message").toString();
+
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return "";
+        }
     }
 }
