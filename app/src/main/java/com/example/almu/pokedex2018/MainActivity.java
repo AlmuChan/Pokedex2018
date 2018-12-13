@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,13 +25,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     TextView txt1,txt2;
+    RecyclerView rv;
+    LinearLayoutManager llm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +64,28 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        //cosas
+
+        // Elementos a controlar
         txt1 = findViewById(R.id.txtName);
         txt2 = findViewById(R.id.txtName2);
 
-        Servicio servicio = new Servicio();
-        servicio.execute();
+
+        // RecyclerView y LinearLayoutManager
+        rv = findViewById(R.id.rv);
+        rv.setHasFixedSize(true);
+
+        llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
+
+        List<Pokemon> pokemonList = new ArrayList<>();
+        pokemonList.add(new Pokemon("Bulbasur", Arrays.asList("Placaje", "Cola férrea"),
+                Arrays.asList("Venusur"), R.drawable.ic_menu_camera));
+
+        RVAdapter adapter = new RVAdapter(pokemonList);
+        rv.setAdapter(adapter);
+        
+        /*Servicio servicio = new Servicio();
+        servicio.execute();*/
     }
 
     @Override
@@ -119,7 +144,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    //usando la api
+
+    //usando la api --> mmmm ojo cuidao con esto
     public class Servicio extends AsyncTask<Void,Void,String> {
 
 
