@@ -25,7 +25,7 @@ public class StartActivity extends AppCompatActivity {
 
         if(imageLogo != null) {
             GlideApp.with(this)
-                    .load("https://i.redd.it/fcys3yr59dax.gif")
+                    .load("https://i.gifer.com/4OKl.gif")
                     //.placeholder(R.mipmap.desconocido)
                     .into(imageLogo);
 
