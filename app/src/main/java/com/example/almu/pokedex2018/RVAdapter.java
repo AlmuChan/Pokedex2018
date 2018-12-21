@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
-import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>{
@@ -65,9 +64,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
     @Override
     public void onBindViewHolder(PokemonViewHolder viewHolder, int i) {
         String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
-        Glide.with(viewHolder.imagen.getContext())
+        GlideApp.with(viewHolder.imagen.getContext())
                 .load(url + items.get(i).id + ".png")
-                //.placeholder(R.mipmap.ic_launcher_round)
+                .placeholder(R.mipmap.desconocido)
                 .into(viewHolder.imagen);
 
         viewHolder.nombre.setText(items.get(i).id + ". " + items.get(i).nombre);

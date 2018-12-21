@@ -8,9 +8,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-
 public class StartActivity extends AppCompatActivity {
 
     ImageView imageLogo;
@@ -23,21 +20,16 @@ public class StartActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        setContentView(R.layout.activity_start);
         imageLogo = findViewById(R.id.imagenLogo);
 
-        //GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(imageView);
-
-        setContentView(R.layout.activity_start);
-
         if(imageLogo != null) {
-            Glide.with(this)
-                    //.asGif()
-                    .load(R.drawable.ic_menu_camera)
-                    //.apply(new RequestOptions().placeholder(
-                    //       R.drawable.ic_launcher_background).error(R.drawable.ic_menu_camera))
+            GlideApp.with(this)
+                    .load("https://i.redd.it/fcys3yr59dax.gif")
+                    //.placeholder(R.mipmap.desconocido)
                     .into(imageLogo);
-        }
 
+        }
 
         changeScreen();
     }
