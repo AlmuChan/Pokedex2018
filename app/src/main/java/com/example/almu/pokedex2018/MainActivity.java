@@ -65,21 +65,20 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Elementos a controlar
-        txt1 = findViewById(R.id.txtName);
-        txt2 = findViewById(R.id.txtName2);
-
-
         // RecyclerView y LinearLayoutManager
-        rv = findViewById(R.id.rv);
+        rv = (RecyclerView) findViewById(R.id.reciclador);
         rv.setHasFixedSize(true);
 
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
         List<Pokemon> pokemonList = new ArrayList<>();
-        pokemonList.add(new Pokemon("Bulbasur", Arrays.asList("Placaje", "Cola férrea"),
-                Arrays.asList("Venusur"), R.drawable.ic_menu_camera));
+        for(int i = 1; i < 152; i++)
+        {
+            pokemonList.add(new Pokemon(i,"Bulbasur", "Planta",
+                    Arrays.asList("Placaje", "Cola férrea"),
+                    Arrays.asList("Venusur")));
+        }
 
         RVAdapter adapter = new RVAdapter(pokemonList);
         rv.setAdapter(adapter);
