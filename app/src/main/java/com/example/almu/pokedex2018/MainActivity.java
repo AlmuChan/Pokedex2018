@@ -16,10 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +34,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    TextView txt1,txt2;
     RecyclerView rv;
     LinearLayoutManager llm;
 
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // RecyclerView y LinearLayoutManager
-        rv = (RecyclerView) findViewById(R.id.reciclador);
+        rv = findViewById(R.id.reciclador);
         rv.setHasFixedSize(true);
 
         llm = new LinearLayoutManager(this);
@@ -153,7 +150,7 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(String s) {
             //super.onPostExecute(s);
 
-            txt1.setText(s);
+            //txt1.setText(s);
         }
 
         @Override
