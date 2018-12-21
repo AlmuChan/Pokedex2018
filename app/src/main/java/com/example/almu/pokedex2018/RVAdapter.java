@@ -1,8 +1,10 @@
 package com.example.almu.pokedex2018;
 
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +25,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
         // Campos de la tarjeta para el item
         public ImageView imagen;
         public TextView nombre;
-        public TextView tipo;
+        public Button tipo;
         public View view;
 
         public PokemonViewHolder(View v) {
@@ -70,6 +72,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
                 .into(viewHolder.imagen);
 
         viewHolder.nombre.setText(items.get(i).id + ". " + items.get(i).nombre);
+        viewHolder.tipo.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(), R.color.tipoPlanta));
         viewHolder.tipo.setText(items.get(i).tipo);
     }
 }
