@@ -72,9 +72,15 @@ public class MainActivity extends AppCompatActivity
         List<Pokemon> pokemonList = new ArrayList<>();
         for(int i = 1; i < 152; i++)
         {
-            pokemonList.add(new Pokemon(i,"Bulbasur", "Planta",
-                    Arrays.asList("Placaje", "Cola férrea"),
-                    Arrays.asList("Venusur")));
+            if(i % 2 != 0) {
+                pokemonList.add(new Pokemon(i,"Bulbasur", "Planta",
+                        Arrays.asList("Placaje", "Cola férrea"),
+                        Arrays.asList("Venusur")));
+            } else {
+                pokemonList.add(new Pokemon(i,"Charmander", "Fuego",
+                        Arrays.asList("Placaje", "Cola férrea"),
+                        Arrays.asList("Venusur")));
+            }
         }
 
         RVAdapter adapter = new RVAdapter(pokemonList);

@@ -72,7 +72,46 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
                 .into(viewHolder.imagen);
 
         viewHolder.nombre.setText(items.get(i).id + ". " + items.get(i).nombre);
-        viewHolder.tipo.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(), R.color.tipoPlanta));
+        viewHolder.tipo.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
+                getColorType(items.get(i).tipo)));
         viewHolder.tipo.setText(items.get(i).tipo);
+    }
+
+    // Switch de colores para los tipos
+    public int getColorType(String tipo) {
+        switch (tipo) {
+            case "Agua":
+                return R.color.tipoAgua;
+            case "Bicho":
+                return R.color.tipoBicho;
+            case "Dragón":
+                return R.color.tipoDragon;
+            case "Eléctrico":
+                return R.color.tipoElectrico;
+            case "Fantasma":
+                return R.color.tipoFantasma;
+            case "Fuego":
+                return R.color.tipoFuego;
+            case "Hielo":
+                return R.color.tipoHielo;
+            case "Lucha":
+                return R.color.tipoLucha;
+            case "Normal":
+                return R.color.tipoNormal;
+            case "Planta":
+                return R.color.tipoPlanta;
+            case "Psíquico":
+                return R.color.tipoPsiquico;
+            case "Roca":
+                return R.color.tipoRoca;
+            case "Tierra":
+                return R.color.tipoTierra;
+            case "Veneno":
+                return R.color.tipoVeneno;
+            case "Volador":
+                return R.color.tipoVolador;
+        }
+
+        return R.color.colorAccent;
     }
 }
