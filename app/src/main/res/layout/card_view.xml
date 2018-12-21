@@ -24,6 +24,7 @@
             android:id="@+id/nombre"
             android:layout_toRightOf="@+id/imagen"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="3dp"
             android:layout_marginLeft="10dp" />
 
         <TextView
