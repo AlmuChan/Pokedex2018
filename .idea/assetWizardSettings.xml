@@ -18,23 +18,12 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
-                                      <entry key="backgroundImage">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="scalingPercent" value="27" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
                                       <entry key="foregroundImage">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="72" />
+                                                <entry key="scalingPercent" value="67" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -44,12 +33,11 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="C:\Users\Almu\Documents\DAM2\android\Eval1\POKEMON\icon.png" />
-                                      <entry key="foregroundLayerName" value="ic_launcher_foreground" />
-                                      <entry key="legacyIconShape" value="CIRCLE" />
-                                      <entry key="outputName" value="ic_pokedex" />
-                                      <entry key="webIconShape" value="CIRCLE" />
+                                      <entry key="backgroundLayerName" value="ic_pkdex_background" />
+                                      <entry key="foregroundImage" value="C:\Users\Gonzalo\AndroidStudioProjects\Pokedex2018\app\src\main\res\mipmap-xxhdpi\pokedex.jpg" />
+                                      <entry key="foregroundLayerName" value="ic_pkdex" />
+                                      <entry key="outputName" value="pkdex" />
+                                      <entry key="showSafeZone" value="false" />
                                     </map>
                                   </option>
                                 </PersistentState>
