@@ -58,13 +58,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Añadimos permisos que requiera la app obligatoriamente para su funcionamiento
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
         permissions.add(CAMERA);
         permissions.add(RECORD_AUDIO);
 
-        //Cogemos los permisos que no están todavía dados.
-        //Los metemos en una lista para usarlos después.
+        //Lista de permisos no dados metidos para usarlos después
         permissionsToRequest = findUnAskedPermissions(permissions);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
+
+        // Datos para las cardview en una lista que irá al adapter
         List<Pokemon> pokemonList = new ArrayList<>();
         for(int i = 1; i < 152; i++)
         {
@@ -149,7 +151,8 @@ public class MainActivity extends AppCompatActivity
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+        int[] grantResults) {
         switch (requestCode) {
             case ALL_PERMISSIONS_RESULT:
                 for (String perms : permissionsToRequest) {
@@ -160,15 +163,18 @@ public class MainActivity extends AppCompatActivity
                 if (permissionsRejected.size() > 0) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
-                            showMessageOKCancel("Estos permisos son obligatorios para la aplicación. Por favor acepta los permisos",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermissions(permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
-                                            }
-                                        }
-                                    });
+                            showMessageOKCancel("La app requiere estos permisos para " +
+                                            "funcionar. Por favor acéptalos",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        requestPermissions(permissionsRejected.toArray(
+                                                new String[permissionsRejected.size()]),
+                                                ALL_PERMISSIONS_RESULT);
+                                    }
+                                }
+                            });
                             return;
                         }
                     }
