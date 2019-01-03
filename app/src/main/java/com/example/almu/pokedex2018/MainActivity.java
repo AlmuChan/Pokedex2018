@@ -2,6 +2,7 @@ package com.example.almu.pokedex2018;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -119,6 +120,10 @@ public class MainActivity extends AppCompatActivity
 
         RVAdapter adapter = new RVAdapter(pokemonList);
         rv.setAdapter(adapter);
+
+        // Ejecución del servicio para usar el acelerómetro del móvil
+        Intent intent = new Intent(this, ShakeService.class);
+        startService(intent);
         
         /*Servicio servicio = new Servicio();
         servicio.execute();*/

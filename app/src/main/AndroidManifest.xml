@@ -35,6 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name="com.example.almu.pokedex2018.ShakeService"></service>
     </application>
 
 </manifest>
