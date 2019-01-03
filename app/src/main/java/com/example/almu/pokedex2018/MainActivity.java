@@ -4,9 +4,11 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +24,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedInputStream;
@@ -41,6 +45,7 @@ import java.util.List;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.RECORD_AUDIO;
 
 public class MainActivity extends AppCompatActivity
@@ -64,6 +69,7 @@ public class MainActivity extends AppCompatActivity
         permissions.add(ACCESS_COARSE_LOCATION);
         permissions.add(CAMERA);
         permissions.add(RECORD_AUDIO);
+        permissions.add(READ_CONTACTS);
 
         //Lista de permisos no dados metidos para usarlos después
         permissionsToRequest = findUnAskedPermissions(permissions);
@@ -244,7 +250,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
-
+            getContacts();
         } else if (id == R.id.nav_send) {
 
         }
@@ -254,10 +260,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    //usando la api --> mmmm ojo cuidao con esto
+    //DEPRECATED --> usaremos retrofit
     public class Servicio extends AsyncTask<Void,Void,String> {
-
-
 
         @Override
         protected void onPostExecute(String s) {
@@ -305,5 +309,47 @@ public class MainActivity extends AppCompatActivity
 
             return "";
         }
+    }
+
+    // Contactos que tienen instalada la app en su dispositivo.
+    public void getContacts(){
+        String s;
+
+        String[] datos = new String[] { ContactsContract.Data._ID,
+                ContactsContract.Data.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Phone.TYPE };
+
+        String selectionClause = ContactsContract.Data.MIMETYPE + "='" +
+                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE + "' AND "
+                + ContactsContract.CommonDataKinds.Phone.NUMBER + " IS NOT NULL";
+
+        String sortOrder = ContactsContract.Data.DISPLAY_NAME + " ASC";
+
+        Cursor c = getContentResolver().query(
+                ContactsContract.Data.CONTENT_URI,
+                datos,
+                selectionClause,
+                null,
+                sortOrder);
+
+        s = "";
+
+        while(c.moveToNext()){
+            s += "Identificador: " +
+                    c.getString(0) +
+                    " Nombre: " +
+                    c.getString(1) +
+                    " Número: " +
+                    c.getString(2)+
+                    " Tipo: " +
+                    c.getString(3)+"\n";
+        }
+        c.close();
+
+        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+
+        // Mostrar sólo cuales tienen la app instalada
+        // TODO
     }
 }
