@@ -7,7 +7,7 @@
     card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -46,6 +46,19 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="7dp"
             android:text="Button"/>
+
+        <Button
+            android:id="@+id/tipo2"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/nombre"
+            android:layout_alignLeft="@+id/nombre"
+            android:layout_marginLeft="107dp"
+            android:layout_marginTop="-1dp"
+            android:layout_marginBottom="7dp"
+            android:background="@color/tipoRoca"
+            android:text="Button"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

@@ -3,7 +3,6 @@ package com.example.almu.pokedex2018;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,11 +47,13 @@ public class BDPokemon extends SQLiteOpenHelper {
                     } else
                         tipos += pokemon.getTipos()[0].getTipo().getNombre();
 
+                    // Guarda el nombre con el formato correcto
+                    String nombreMayus = pokemon.getNombre().substring(0, 1).toUpperCase()
+                            + pokemon.getNombre().substring(1);
 
-                    db.execSQL("INSERT INTO pokemon(id,nombre, altura,peso,tipos) VALUES" +
-                            "( " + pokemon.getId() + ",'" + pokemon.getNombre() + "'," + pokemon.getAltura()
+                    db.execSQL("INSERT INTO pokemon(id,nombre,altura,peso,tipos) VALUES" +
+                            "( " + pokemon.getId() + ",'" + nombreMayus + "'," + pokemon.getAltura()
                             + "," + pokemon.getPeso() + ",'" + tipos + "');");
-
                 }
 
                 @Override

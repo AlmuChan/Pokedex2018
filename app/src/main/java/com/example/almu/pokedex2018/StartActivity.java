@@ -35,6 +35,8 @@ public class StartActivity extends AppCompatActivity {
         BDPokemon pokemons = new BDPokemon(this, "BDPokemon", null, 1);
         SQLiteDatabase db = pokemons.getWritableDatabase();
 
+        // Añadir progressdialog donde ponga loading para que de sensación de carga
+
         changeScreen();
     }
 
@@ -49,9 +51,9 @@ public class StartActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
-            public void run() {
-                startActivity(intent);
-            }
-        }, 3000);
+                public void run() {
+                    startActivity(intent);
+                }
+            }, 20000);
     }
 }

@@ -26,6 +26,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
         public ImageView imagen;
         public TextView nombre;
         public Button tipo;
+        public Button tipo2;
         public View view;
 
         public PokemonViewHolder(View v) {
@@ -34,6 +35,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
             imagen = v.findViewById(R.id.imagen);
             nombre = v.findViewById(R.id.nombre);
             tipo = v.findViewById(R.id.tipo);
+            tipo2 = v.findViewById(R.id.tipo2);
 
             //Cuando se hace click en una tarjeta
             view.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +78,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
         viewHolder.tipo.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
                 getColorType(items.get(i).getTipos()[0].getTipo().getNombre())));
         viewHolder.tipo.setText(items.get(i).getTipos()[0].getTipo().getNombre());
+
+        if(items.get(i).getTipos().length == 2) {
+            viewHolder.tipo2.setVisibility(View.VISIBLE);
+            viewHolder.tipo2.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
+                    getColorType(items.get(i).getTipos()[1].getTipo().getNombre())));
+            viewHolder.tipo2.setText(items.get(i).getTipos()[1].getTipo().getNombre());
+        }
     }
 
     // Switch de colores para los tipos
