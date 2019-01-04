@@ -1,5 +1,6 @@
 package com.example.almu.pokedex2018;
 
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,22 +85,44 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
     @Override
     public void onBindViewHolder(PokemonViewHolder viewHolder, int i) {
         String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
-        GlideApp.with(viewHolder.imagen.getContext())
-                .load(url + items.get(i).id + ".png")
-                .placeholder(R.mipmap.desconocido)
-                .into(viewHolder.imagen);
 
-        viewHolder.nombre.setText(items.get(i).id + ". " + items.get(i).nombre);
+        if(items.get(i).getOculto() == 0) {
+            GlideApp.with(viewHolder.imagen.getContext())
+                    .load(R.mipmap.desconocido)
+                    .into(viewHolder.imagen);
 
-        viewHolder.tipo.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
-                getColorType(items.get(i).getTipos()[0].getTipo().getNombre())));
-        viewHolder.tipo.setText(items.get(i).getTipos()[0].getTipo().getNombre());
+            viewHolder.nombre.setText(items.get(i).id + ". ????");
 
-        if(items.get(i).getTipos().length == 2) {
-            viewHolder.tipo2.setVisibility(View.VISIBLE);
-            viewHolder.tipo2.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
-                    getColorType(items.get(i).getTipos()[1].getTipo().getNombre())));
-            viewHolder.tipo2.setText(items.get(i).getTipos()[1].getTipo().getNombre());
+            // Tipos
+            viewHolder.tipo.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
+                    getColorType("unknown")));
+            viewHolder.tipo.setText("????");
+
+            if(items.get(i).getTipos().length == 2) {
+                viewHolder.tipo2.setVisibility(View.VISIBLE);
+                viewHolder.tipo2.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
+                        getColorType("unknown")));
+                viewHolder.tipo2.setText("????");
+            }
+        } else {
+            GlideApp.with(viewHolder.imagen.getContext())
+                    .load(url + items.get(i).id + ".png")
+                    .placeholder(R.mipmap.desconocido)
+                    .into(viewHolder.imagen);
+
+            viewHolder.nombre.setText(items.get(i).id + ". " + items.get(i).nombre);
+
+            // Tipos
+            viewHolder.tipo.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
+                    getColorType(items.get(i).getTipos()[0].getTipo().getNombre())));
+            viewHolder.tipo.setText(items.get(i).getTipos()[0].getTipo().getNombre());
+
+            if(items.get(i).getTipos().length == 2) {
+                viewHolder.tipo2.setVisibility(View.VISIBLE);
+                viewHolder.tipo2.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
+                        getColorType(items.get(i).getTipos()[1].getTipo().getNombre())));
+                viewHolder.tipo2.setText(items.get(i).getTipos()[1].getTipo().getNombre());
+            }
         }
     }
 
@@ -136,6 +159,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
                 return R.color.tipoVeneno;
             case "flying":
                 return R.color.tipoVolador;
+            case "unknown":
+                return R.color.desconocido;
         }
 
         return R.color.colorAccent;

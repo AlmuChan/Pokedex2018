@@ -122,7 +122,10 @@ public class MainActivity extends AppCompatActivity
                 Integer altura = c.getInt(2);
                 Integer peso = c.getInt(3);
                 String tipoString = c.getString(4);
+                String habilidadString = c.getString(5);
+                Integer oculto = c.getInt(6);
 
+                // Tipos
                 Tipo[] tipo = null;
                 if(tipoString.contains(";"))
                 {
@@ -135,7 +138,20 @@ public class MainActivity extends AppCompatActivity
                     tipo[0] = new Tipo(new Contenido(tipoString));
                 }
 
-                Pokemon p = new Pokemon(id,nombre,altura,peso,tipo,null);
+                // Habilidades
+                Habilidad[] habilidades = null;
+                if(habilidadString.contains(";"))
+                {
+                    habilidades = new Habilidad[2];
+                    habilidades[0] = new Habilidad(new Contenido(habilidadString.split(";")[0]));
+                    habilidades[1] = new Habilidad(new Contenido(habilidadString.split(";")[1]));
+                }
+                else{
+                    habilidades = new Habilidad[1];
+                    habilidades[0] = new Habilidad(new Contenido(habilidadString));
+                }
+
+                Pokemon p = new Pokemon(id,nombre,altura,peso,tipo,habilidades,oculto);
                 pokemonList.add(p);
 
             }while(c.moveToNext());

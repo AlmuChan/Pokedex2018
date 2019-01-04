@@ -3,6 +3,7 @@ package com.example.almu.pokedex2018;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -53,12 +54,17 @@ public class ShakeService extends Service implements SensorEventListener {
         // Si el móvil ha sido agitado entonces ejecuta lo siguiente
         if (mAccel > 11) {
             Random rnd = new Random();
+            BDPokemon pokemons = new BDPokemon(this, "BDPokemon", null, 1);
+            SQLiteDatabase db = pokemons.getWritableDatabase();
+
+            db.execSQL("UPDATE pokemon SET oculto = 1 WHERE id = " + rnd.nextInt(152) + ";");
+
             int color = Color.argb(255, rnd.nextInt(256),
                     rnd.nextInt(256), rnd.nextInt(256));
             //ServiceActivity.tvShakeService.setText("Service detects the Shake Action!! " +
             //        "Color is also changed..!!!");
             //ServiceActivity.tvShakeService.setTextColor(color);
-            Toast.makeText(this, "AGITASIÓN", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "¡Pokémon capturado!", Toast.LENGTH_SHORT).show();
         }
     }
 }

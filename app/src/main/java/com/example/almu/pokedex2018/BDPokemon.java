@@ -16,11 +16,11 @@ public class BDPokemon extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String sqlCreate = "CREATE TABLE pokemon (" +
-                "id INT,nombre TEXT,altura INT,peso INT, tipos TEXT)";
+                "id INT,nombre TEXT,altura INT,peso INT, tipos TEXT, habilidades TEXT, oculto INT)";
         db.execSQL(sqlCreate);
 
         this.db = db;
-        inserts();
+        initialInserts();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class BDPokemon extends SQLiteOpenHelper {
 
     }
 
-    public void inserts()
+    public void initialInserts()
     {
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         for(int i = 1; i < 152 ; i++) {
@@ -38,8 +38,9 @@ public class BDPokemon extends SQLiteOpenHelper {
                 @Override
                 public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
                     Pokemon pokemon = response.body();
-                    String tipos = "";
+                    String tipos = "", habilidades = "";
 
+                    // Tipos
                     if (pokemon.getTipos().length == 2) {
                         tipos += pokemon.getTipos()[0].getTipo().getNombre();
                         tipos += ";";
@@ -47,13 +48,23 @@ public class BDPokemon extends SQLiteOpenHelper {
                     } else
                         tipos += pokemon.getTipos()[0].getTipo().getNombre();
 
+                    // Habilidades
+                    if (pokemon.getHabilidades().length == 2) {
+                        habilidades += pokemon.getHabilidades()[0].getHabilidad().getNombre();
+                        habilidades += ";";
+                        habilidades += pokemon.getHabilidades()[1].getHabilidad().getNombre();
+                    } else
+                        habilidades += pokemon.getHabilidades()[0].getHabilidad().getNombre();
+
                     // Guarda el nombre con el formato correcto
                     String nombreMayus = pokemon.getNombre().substring(0, 1).toUpperCase()
                             + pokemon.getNombre().substring(1);
 
-                    db.execSQL("INSERT INTO pokemon(id,nombre,altura,peso,tipos) VALUES" +
+                    db.execSQL("INSERT INTO pokemon(id,nombre,altura,peso,tipos,habilidades,oculto)"
+                            + " VALUES" +
                             "( " + pokemon.getId() + ",'" + nombreMayus + "'," + pokemon.getAltura()
-                            + "," + pokemon.getPeso() + ",'" + tipos + "');");
+                            + "," + pokemon.getPeso() + ",'" + tipos + "','" + habilidades + "',"
+                            + 0 + ");");
                 }
 
                 @Override

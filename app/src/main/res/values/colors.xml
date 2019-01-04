@@ -19,4 +19,5 @@
     <color name="tipoTierra">#FFFFE0</color>
     <color name="tipoVeneno">#DDA0DD</color>
     <color name="tipoVolador">#87CEFA</color>
+    <color name="desconocido">#C8C8C8</color>
 </resources>

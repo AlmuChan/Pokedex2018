@@ -67,17 +67,19 @@ public class Pokemon {
     Tipo[] tipos;
     @SerializedName("abilities")
     private Habilidad[] habilidades;
+    int oculto;
 
     //List<String> evoluciones;
 
     public Pokemon(Integer id, String nombre, Integer peso, Integer altura,
-                   Tipo[] tipos, Habilidad[] habilidades) {
+                   Tipo[] tipos, Habilidad[] habilidades, int oculto) {
         this.id = id;
         this.nombre = nombre;
         this.peso = peso;
         this.altura = altura;
         this.tipos = tipos;
         this.habilidades = habilidades;
+        this.oculto = oculto;
     }
 
     public Integer getId() {
@@ -126,5 +128,13 @@ public class Pokemon {
 
     public void setHabilidades(Habilidad[] habilidades) {
         this.habilidades = habilidades;
+    }
+
+    public int getOculto() {
+        return oculto;
+    }
+
+    public void setOculto(int oculto) {
+        this.oculto = oculto;
     }
 }
