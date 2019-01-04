@@ -13,8 +13,6 @@ import android.widget.ImageView;
 public class StartActivity extends AppCompatActivity {
 
     ImageView imageLogo;
-    SharedPreferences sharedPreferences = null;
-    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +37,6 @@ public class StartActivity extends AppCompatActivity {
         BDPokemon pokemons = new BDPokemon(this, "BDPokemon", null, 1);
         SQLiteDatabase db = pokemons.getWritableDatabase();
 
-        // Para saber si se ha ejecutado mas de una vez
-        sharedPreferences = getSharedPreferences("com.pokedex2018", MODE_PRIVATE);
-
         // Añadir progressdialog donde ponga loading para que de sensación de carga
 
         changeScreen();
@@ -50,27 +45,27 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        changeScreen();
+        //changeScreen();
     }
 
     protected void changeScreen() {
         final Intent intent = new Intent(this, MainActivity.class);
         int duration = 3000;
 
-        /*if (sharedPreferences.getBoolean("firstRun", true)) {
-            editor = sharedPreferences.edit();
-            editor.putBoolean("firstRun", false);
+        SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
+        if (preferences.getBoolean("firstLogin", true)) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("firstLogin", false);
             editor.commit();
             duration = 20000;
-        } else {
-
-        }*/
+        }
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
                 public void run() {
                     startActivity(intent);
+                    finish();
                 }
-            }, 20000);
+            }, duration);
     }
 }

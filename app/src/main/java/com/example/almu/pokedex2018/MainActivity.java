@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            moveTaskToBack(true);
         }
     }
 
@@ -369,5 +370,10 @@ public class MainActivity extends AppCompatActivity
 
         // Mostrar sólo cuales tienen la app instalada
         // TODO
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }
