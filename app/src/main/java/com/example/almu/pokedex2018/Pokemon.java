@@ -1,28 +1,90 @@
 package com.example.almu.pokedex2018;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
-public class Pokemon {
-    int id;
-    String nombre;
-    String tipo;
-    List<String> habilidades;
-    List<String> evoluciones;
+class Tipo {
+    @SerializedName("type")
+    private Contenido tipo;
 
-    public Pokemon(int id, String nombre, String tipo, List<String> habilidades,
-                   List<String> evoluciones) {
-        this.id = id;
-        this.nombre = nombre;
+    public Tipo(Contenido tipo) {
         this.tipo = tipo;
-        this.habilidades = habilidades;
-        this.evoluciones = evoluciones;
     }
 
-    public int getId() {
+    public Contenido getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Contenido tipo) {
+        this.tipo = tipo;
+    }
+}
+
+class Habilidad{
+    @SerializedName("ability")
+    private Contenido habilidad;
+
+    public Habilidad(Contenido habilidad) {
+        this.habilidad = habilidad;
+    }
+
+    public Contenido getHabilidad() {
+        return habilidad;
+    }
+
+    public void setHabilidad(Contenido habilidad) {
+        this.habilidad = habilidad;
+    }
+}
+
+class Contenido{
+    @SerializedName("name")
+    private String nombre;
+
+    public Contenido(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+}
+
+public class Pokemon {
+
+    @SerializedName("id")
+    Integer id;
+    @SerializedName("name")
+    String nombre;
+    @SerializedName("weight")
+    Integer peso;
+    @SerializedName("height")
+    Integer altura;
+    @SerializedName("types")
+    Tipo[] tipos;
+    @SerializedName("abilities")
+    private Habilidad[] habilidades;
+
+    //List<String> evoluciones;
+
+    public Pokemon(Integer id, String nombre, Integer peso, Integer altura,
+                   Tipo[] tipos, Habilidad[] habilidades) {
+        this.id = id;
+        this.nombre = nombre;
+        this.peso = peso;
+        this.altura = altura;
+        this.tipos = tipos;
+        this.habilidades = habilidades;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -34,27 +96,35 @@ public class Pokemon {
         this.nombre = nombre;
     }
 
-    public String getTipo() {
-        return tipo;
+    public Integer getPeso() {
+        return peso;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setPeso(Integer peso) {
+        this.peso = peso;
     }
 
-    public List<String> getHabilidades() {
+    public Integer getAltura() {
+        return altura;
+    }
+
+    public void setAltura(Integer altura) {
+        this.altura = altura;
+    }
+
+    public Tipo[] getTipos() {
+        return tipos;
+    }
+
+    public void setTipos(Tipo[] tipos) {
+        this.tipos = tipos;
+    }
+
+    public Habilidad[] getHabilidades() {
         return habilidades;
     }
 
-    public void setHabilidades(List<String> habilidades) {
+    public void setHabilidades(Habilidad[] habilidades) {
         this.habilidades = habilidades;
-    }
-
-    public List<String> getEvoluciones() {
-        return evoluciones;
-    }
-
-    public void setEvoluciones(List<String> evoluciones) {
-        this.evoluciones = evoluciones;
     }
 }

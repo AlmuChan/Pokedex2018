@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,6 +43,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity
 
     RecyclerView rv;
     LinearLayoutManager llm;
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,21 +114,42 @@ public class MainActivity extends AppCompatActivity
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
+        BDPokemon pokemons = new BDPokemon(this, "BDPokemon", null, 1);
+        db = pokemons.getWritableDatabase();
 
         // Datos para las cardview en una lista que irá al adapter
+        // Cargamos la lista con Retrofit y la pokeApi
         List<Pokemon> pokemonList = new ArrayList<>();
-        for(int i = 1; i < 152; i++)
-        {
-            if(i % 2 != 0) {
-                pokemonList.add(new Pokemon(i,"Bulbasur", "Planta",
-                        Arrays.asList("Placaje", "Cola férrea"),
-                        Arrays.asList("Venusur")));
-            } else {
-                pokemonList.add(new Pokemon(i,"Charmander", "Fuego",
-                        Arrays.asList("Placaje", "Cola férrea"),
-                        Arrays.asList("Venusur")));
-            }
+
+        String[] args = new String[]{};
+        Cursor c = db.rawQuery("SELECT * FROM pokemon ORDER BY id;", args);
+        if(c.moveToFirst()) {
+            // Recorremos el cursor hasta que no haya mas registros
+            do {
+                Integer id = c.getInt(0);
+                String nombre = c.getString(1);
+                Integer altura = c.getInt(2);
+                Integer peso = c.getInt(3);
+                String tipoString = c.getString(4);
+
+                Tipo[] tipo = null;
+                if(tipoString.contains(";"))
+                {
+                    tipo = new Tipo[2];
+                    tipo[0] = new Tipo(new Contenido(tipoString.split(";")[0]));
+                    tipo[1] = new Tipo(new Contenido(tipoString.split(";")[1]));
+                }
+                else{
+                    tipo = new Tipo[1];
+                    tipo[0] = new Tipo(new Contenido(tipoString));
+                }
+
+                Pokemon p = new Pokemon(id,nombre,altura,peso,tipo,null);
+                pokemonList.add(p);
+
+            }while(c.moveToNext());
         }
+
 
         RVAdapter adapter = new RVAdapter(pokemonList);
         rv.setAdapter(adapter);

@@ -72,43 +72,44 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
                 .into(viewHolder.imagen);
 
         viewHolder.nombre.setText(items.get(i).id + ". " + items.get(i).nombre);
+
         viewHolder.tipo.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
-                getColorType(items.get(i).tipo)));
-        viewHolder.tipo.setText(items.get(i).tipo);
+                getColorType(items.get(i).getTipos()[0].getTipo().getNombre())));
+        viewHolder.tipo.setText(items.get(i).getTipos()[0].getTipo().getNombre());
     }
 
     // Switch de colores para los tipos
     public int getColorType(String tipo) {
         switch (tipo) {
-            case "Agua":
+            case "water":
                 return R.color.tipoAgua;
-            case "Bicho":
+            case "bug":
                 return R.color.tipoBicho;
-            case "Dragón":
+            case "dragon":
                 return R.color.tipoDragon;
-            case "Eléctrico":
+            case "electric":
                 return R.color.tipoElectrico;
-            case "Fantasma":
+            case "ghost":
                 return R.color.tipoFantasma;
-            case "Fuego":
+            case "fire":
                 return R.color.tipoFuego;
-            case "Hielo":
+            case "ice":
                 return R.color.tipoHielo;
-            case "Lucha":
+            case "fighting":
                 return R.color.tipoLucha;
-            case "Normal":
+            case "normal":
                 return R.color.tipoNormal;
-            case "Planta":
+            case "grass":
                 return R.color.tipoPlanta;
-            case "Psíquico":
+            case "psychic":
                 return R.color.tipoPsiquico;
-            case "Roca":
+            case "rock":
                 return R.color.tipoRoca;
-            case "Tierra":
+            case "ground":
                 return R.color.tipoTierra;
-            case "Veneno":
+            case "poison":
                 return R.color.tipoVeneno;
-            case "Volador":
+            case "flying":
                 return R.color.tipoVolador;
         }
 

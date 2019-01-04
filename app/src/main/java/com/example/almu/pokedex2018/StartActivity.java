@@ -1,6 +1,7 @@
 package com.example.almu.pokedex2018;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,9 @@ public class StartActivity extends AppCompatActivity {
                     .into(imageLogo);
 
         }
+
+        BDPokemon pokemons = new BDPokemon(this, "BDPokemon", null, 1);
+        SQLiteDatabase db = pokemons.getWritableDatabase();
 
         changeScreen();
     }
