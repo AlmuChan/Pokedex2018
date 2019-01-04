@@ -1,6 +1,7 @@
 package com.example.almu.pokedex2018;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,9 @@ import android.widget.ImageView;
 public class StartActivity extends AppCompatActivity {
 
     ImageView imageLogo;
+    SharedPreferences sharedPreferences = null;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,9 @@ public class StartActivity extends AppCompatActivity {
         BDPokemon pokemons = new BDPokemon(this, "BDPokemon", null, 1);
         SQLiteDatabase db = pokemons.getWritableDatabase();
 
+        // Para saber si se ha ejecutado mas de una vez
+        sharedPreferences = getSharedPreferences("com.pokedex2018", MODE_PRIVATE);
+
         // Añadir progressdialog donde ponga loading para que de sensación de carga
 
         changeScreen();
@@ -48,6 +55,16 @@ public class StartActivity extends AppCompatActivity {
 
     protected void changeScreen() {
         final Intent intent = new Intent(this, MainActivity.class);
+        int duration = 3000;
+
+        /*if (sharedPreferences.getBoolean("firstRun", true)) {
+            editor = sharedPreferences.edit();
+            editor.putBoolean("firstRun", false);
+            editor.commit();
+            duration = 20000;
+        } else {
+
+        }*/
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

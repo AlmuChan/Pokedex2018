@@ -41,8 +41,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
             view.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     int pos = recycler.getChildLayoutPosition(v);
+                    String text = "";
+
+                    for(Tipo t : items.get(pos).getTipos())
+                        text += t.getTipo().getNombre();
+
                     Toast.makeText(v.getContext(),"Pokemon clickado: "
-                            + items.get(pos).id, Toast.LENGTH_LONG).show();
+                            + items.get(pos).id + text, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -50,6 +55,17 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
 
     public RVAdapter(List<Pokemon> items) {
         this.items = items;
+        setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @Override
