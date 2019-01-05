@@ -59,8 +59,8 @@ public class ShakeService extends Service implements SensorEventListener {
 
             db.execSQL("UPDATE pokemon SET oculto = 1 WHERE id = " + rnd.nextInt(152) + ";");
 
-            int color = Color.argb(255, rnd.nextInt(256),
-                    rnd.nextInt(256), rnd.nextInt(256));
+            //int color = Color.argb(255, rnd.nextInt(256),
+            //        rnd.nextInt(256), rnd.nextInt(256));
             //ServiceActivity.tvShakeService.setText("Service detects the Shake Action!! " +
             //        "Color is also changed..!!!");
             //ServiceActivity.tvShakeService.setTextColor(color);

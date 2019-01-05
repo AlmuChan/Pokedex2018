@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +38,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
@@ -49,12 +49,12 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
-
     private final static int ALL_PERMISSIONS_RESULT = 101;
 
     RecyclerView rv;
     LinearLayoutManager llm;
     SQLiteDatabase db;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Manda un mensaje a tu pokémon favorito", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -110,8 +110,32 @@ public class MainActivity extends AppCompatActivity
 
         // Datos para las cardview en una lista que irá al adapter
         // Cargamos la lista con Retrofit y la pokeApi
-        List<Pokemon> pokemonList = new ArrayList<>();
+        List<Pokemon> pokemonList = cargarDatos();
 
+        RVAdapter adapter = new RVAdapter(pokemonList);
+        rv.setAdapter(adapter);
+
+        // Ejecución del servicio para usar el acelerómetro del móvil
+        Intent intent = new Intent(this, ShakeService.class);
+        startService(intent);
+
+        // Recarga de lista
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Esto se ejecuta cada vez que se realiza el gesto
+                Recarga r  = new Recarga();
+                r.execute();
+            }
+        });
+        
+        /*Servicio servicio = new Servicio();
+        servicio.execute();*/
+    }
+
+    private List<Pokemon> cargarDatos() {
+        List<Pokemon> pokemonList = new ArrayList<>();
         String[] args = new String[]{};
         Cursor c = db.rawQuery("SELECT * FROM pokemon ORDER BY id;", args);
         if(c.moveToFirst()) {
@@ -126,7 +150,7 @@ public class MainActivity extends AppCompatActivity
                 Integer oculto = c.getInt(6);
 
                 // Tipos
-                Tipo[] tipo = null;
+                Tipo[] tipo;
                 if(tipoString.contains(";"))
                 {
                     tipo = new Tipo[2];
@@ -139,12 +163,14 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 // Habilidades
-                Habilidad[] habilidades = null;
+                Habilidad[] habilidades;
                 if(habilidadString.contains(";"))
                 {
                     habilidades = new Habilidad[2];
-                    habilidades[0] = new Habilidad(new Contenido(habilidadString.split(";")[0]));
-                    habilidades[1] = new Habilidad(new Contenido(habilidadString.split(";")[1]));
+                    habilidades[0] = new Habilidad(
+                            new Contenido(habilidadString.split(";")[0]));
+                    habilidades[1] = new Habilidad(
+                            new Contenido(habilidadString.split(";")[1]));
                 }
                 else{
                     habilidades = new Habilidad[1];
@@ -157,16 +183,29 @@ public class MainActivity extends AppCompatActivity
             }while(c.moveToNext());
         }
 
+        return pokemonList;
+    }
 
-        RVAdapter adapter = new RVAdapter(pokemonList);
-        rv.setAdapter(adapter);
+    // AsyncTask que recarga la lista del recyclerview
+    private class Recarga extends AsyncTask<Void, Void, List<Pokemon>> {
 
-        // Ejecución del servicio para usar el acelerómetro del móvil
-        Intent intent = new Intent(this, ShakeService.class);
-        startService(intent);
-        
-        /*Servicio servicio = new Servicio();
-        servicio.execute();*/
+        @Override
+        protected List<Pokemon> doInBackground(Void... params) {
+           /* try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+
+            return cargarDatos();
+        }
+
+        @Override
+        protected void onPostExecute(List<Pokemon> list) {
+            RVAdapter adapter = new RVAdapter(list);
+            rv.setAdapter(adapter);
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {

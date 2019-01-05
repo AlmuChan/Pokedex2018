@@ -54,7 +54,7 @@
             android:layout_below="@+id/nombre"
             android:layout_alignLeft="@+id/nombre"
             android:layout_marginLeft="107dp"
-            android:layout_marginTop="-1dp"
+            android:layout_marginTop="2dp"
             android:layout_marginBottom="7dp"
             android:background="@color/tipoRoca"
             android:text="Button"
