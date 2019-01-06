@@ -67,10 +67,10 @@ public class MainActivity extends AppCompatActivity
                         new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         RVAdapter adapter = new RVAdapter(pokemonList);
         rv.setAdapter(adapter);
 
-        // Recarga de lista de pokémon
+        // Recarga con gesto de lista de pokémon
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -174,8 +175,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected List<Pokemon> doInBackground(Void... params) {
-           /* try {
-                Thread.sleep(3000);
+            /*try {
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }*/
@@ -363,5 +364,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        // Cuando se vuelva a esta pantalla, se recargará la lista automáticamente.
+        Recarga r  = new Recarga();
+        r.execute();
     }
 }

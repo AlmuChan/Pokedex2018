@@ -4,19 +4,24 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.util.Random;
 
-public class CapturePokemon extends AppCompatActivity {
+public class CapturePokemon extends AppCompatActivity
+        implements PokemonDetailFragment.OnFragmentInteractionListener {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
     private ImageView imageShake;
     private String urlGif = "https://cdn57.androidauthority.net/wp-content/uploads/2015/05/" +
             "Chop-Twice-for-flashlight.gif";
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,7 @@ public class CapturePokemon extends AppCompatActivity {
         setContentView(R.layout.activity_capture_pokemon);
 
         imageShake = findViewById(R.id.ivShake);
+        linearLayout = findViewById(R.id.linearCaptura);
         if(imageShake != null) {
             GlideApp.with(this)
                     .load(urlGif)
@@ -51,6 +57,22 @@ public class CapturePokemon extends AppCompatActivity {
 
                 Toast.makeText(CapturePokemon.this, "¡Pokémon "
                                 + numCapturado + " capturado!", Toast.LENGTH_SHORT).show();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("id", "" + numCapturado);
+                PokemonDetailFragment detallePoke = PokemonDetailFragment.newInstance();
+                detallePoke.setArguments(bundle);
+
+                if(detallePoke != null){
+                    try{
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.captureScreen, detallePoke)
+                                .commitNow();
+                        linearLayout.setVisibility(View.GONE);
+                    }catch(IllegalStateException e){
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
@@ -66,5 +88,10 @@ public class CapturePokemon extends AppCompatActivity {
     public void onPause() {
         mSensorManager.unregisterListener(mShakeDetector);
         super.onPause();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
