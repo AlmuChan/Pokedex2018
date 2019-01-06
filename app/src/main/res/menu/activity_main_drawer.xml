@@ -13,9 +13,9 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Lista de pokemon descubiertos" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_capture"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Detalles de pokemon" />
+            android:title="Capturar nuevos pokémon" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"

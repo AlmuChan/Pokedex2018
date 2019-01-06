@@ -8,10 +8,29 @@
     tools:context=".StartActivity">
 
     <ImageView
+        android:id="@+id/imageViewPokedex"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_weight="1"
+        android:visibility="visible"
+        app:srcCompat="@mipmap/logo" />
+
+    <ImageView
         android:id="@+id/imagenLogo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:visibility="visible"
         app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-smallcaps"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Dándole una chuche a Squirtle..."
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
 </LinearLayout>
