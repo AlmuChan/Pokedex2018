@@ -1,9 +1,11 @@
 package com.example.almu.pokedex2018;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,7 @@ import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>{
     private List<Pokemon> items;
-    //private FragmentManager fragmentManager;
+    private Context context;
     public RecyclerView recycler;
 
     @Override
@@ -25,8 +27,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
         recycler = recyclerView;
     }
 
-    public class PokemonViewHolder extends RecyclerView.ViewHolder implements
-            PokemonDetailFragment.OnFragmentInteractionListener {
+    public class PokemonViewHolder extends RecyclerView.ViewHolder {
 
         // Campos de la tarjeta para el item
         public ImageView imagen;
@@ -42,47 +43,41 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
             nombre = v.findViewById(R.id.nombre);
             tipo = v.findViewById(R.id.tipo);
             tipo2 = v.findViewById(R.id.tipo2);
+            context = v.getContext();
 
             //Cuando se hace click en una tarjeta
             view.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    int pos = recycler.getChildLayoutPosition(v);
-                    String text = "";
-
-                    /*for(Tipo t : items.get(pos).getTipos())
-                        text += t.getTipo().getNombre();
-
-                    Toast.makeText(v.getContext(),"Pokemon clickado: "
-                            + items.get(pos).id + text, Toast.LENGTH_LONG).show();*/
+                    int pos = recycler.getChildLayoutPosition(v) + 1;
+                    BDPokemon pokemons = new BDPokemon(v.getContext(), "BDPokemon", null, 1);
 
                     Bundle bundle = new Bundle();
                     bundle.putString("id", "" + pos);
                     PokemonDetailFragment detallePoke = PokemonDetailFragment.newInstance();
                     detallePoke.setArguments(bundle);
+                    Pokemon poke = pokemons.getPokemon("" + pos);
 
-                   /* if(detallePoke != null){
+                   if(detallePoke != null && poke.getOculto() == 1){
                         try{
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.swipeRefreshLayout, detallePoke)
-                                    .commitNow();
-                            //linearLayout.setVisibility(View.GONE);
+                            ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.frameLista, detallePoke)
+                                    .addToBackStack(null)
+                                    .commit();
+                            recycler.setVisibility(View.GONE);
                         }catch(IllegalStateException e){
                             e.printStackTrace();
                         }
-                    }*/
+                   } else if(poke.getOculto() == 0){
+                       Toast.makeText(view.getContext(),
+                               "¡Pokémon bloqueado!", Toast.LENGTH_LONG).show();
+                   }
                 }
             });
         }
-
-        @Override
-        public void onFragmentInteraction(Uri uri) {
-
-        }
     }
 
-    public RVAdapter(List<Pokemon> items/*, FragmentManager fragmentManager*/) {
+    public RVAdapter(List<Pokemon> items) {
         this.items = items;
-        //this.fragmentManager = fragmentManager;
         setHasStableIds(true);
     }
 

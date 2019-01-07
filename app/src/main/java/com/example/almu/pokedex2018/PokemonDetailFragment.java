@@ -48,8 +48,6 @@ public class PokemonDetailFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment PokemonDetailFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -79,7 +77,9 @@ public class PokemonDetailFragment extends Fragment {
             String id = bundle.getString("id");
             String nombre;
             String urlImagen = "http://www.pokestadium.com/sprites/xy/";
-            Pokemon poke = getPokemon(id);
+            BDPokemon pokemons = new BDPokemon(getContext(), "BDPokemon", null, 1);
+
+            Pokemon poke = pokemons.getPokemon(id);
             nombre = poke.getNombre().substring(0, 1).toLowerCase()
                     + poke.getNombre().substring(1);
             urlImagen += nombre + ".gif";
@@ -98,7 +98,7 @@ public class PokemonDetailFragment extends Fragment {
         return view;
     }
 
-    private Pokemon getPokemon(String strId) {
+    /*private Pokemon getPokemon(String strId) {
         List<Pokemon> pokemonList = new ArrayList<>();
         String[] args = new String[]{};
         BDPokemon pokemons = new BDPokemon(getContext(), "BDPokemon", null, 1);
@@ -147,7 +147,7 @@ public class PokemonDetailFragment extends Fragment {
         }
 
         return pokemonList.get(0);
-    }
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -187,4 +187,6 @@ public class PokemonDetailFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

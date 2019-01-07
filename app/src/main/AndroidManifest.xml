@@ -37,9 +37,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".ShakeService" />
-
-        <activity android:name=".CapturePokemon"></activity>
+        <activity android:name=".CapturePokemon"
+            android:parentActivityName=".MainActivity" >
+        </activity>
     </application>
 
 </manifest>

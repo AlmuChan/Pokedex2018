@@ -1,8 +1,11 @@
 package com.example.almu.pokedex2018;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import java.util.ArrayList;
+import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,5 +75,55 @@ public class BDPokemon extends SQLiteOpenHelper {
                 }
             });
         }
+    }
+
+    public Pokemon getPokemon(String strId) {
+        List<Pokemon> pokemonList = new ArrayList<>();
+        String[] args = new String[]{};
+        Cursor c = getReadableDatabase()
+                .rawQuery("SELECT * FROM pokemon WHERE id = " + strId + " ORDER BY id;", args);
+
+        if(c.moveToFirst()) {
+            do {
+                Integer id = c.getInt(0);
+                String nombre = c.getString(1);
+                Integer altura = c.getInt(2);
+                Integer peso = c.getInt(3);
+                String tipoString = c.getString(4);
+                String habilidadString = c.getString(5);
+                Integer oculto = c.getInt(6);
+
+                // Tipos
+                Tipo[] tipo;
+                if (tipoString.contains(";")) {
+                    tipo = new Tipo[2];
+                    tipo[0] = new Tipo(new Contenido(tipoString.split(";")[0]));
+                    tipo[1] = new Tipo(new Contenido(tipoString.split(";")[1]));
+                } else {
+                    tipo = new Tipo[1];
+                    tipo[0] = new Tipo(new Contenido(tipoString));
+                }
+
+                // Habilidades
+                Habilidad[] habilidades;
+                if (habilidadString.contains(";")) {
+                    habilidades = new Habilidad[2];
+                    habilidades[0] = new Habilidad(
+                            new Contenido(habilidadString.split(";")[0]));
+                    habilidades[1] = new Habilidad(
+                            new Contenido(habilidadString.split(";")[1]));
+                } else {
+                    habilidades = new Habilidad[1];
+                    habilidades[0] = new Habilidad(new Contenido(habilidadString));
+                }
+
+                Pokemon p = new Pokemon(id, nombre, altura, peso, tipo, habilidades, oculto);
+                pokemonList.add(p);
+
+            } while (c.moveToNext());
+
+        }
+
+        return pokemonList.get(0);
     }
 }

@@ -3,7 +3,6 @@ package com.example.almu.pokedex2018;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,8 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.List;
 import java.util.Random;
 
 public class StartActivity extends AppCompatActivity {
@@ -48,7 +45,6 @@ public class StartActivity extends AppCompatActivity {
         SQLiteDatabase db = pokemons.getWritableDatabase();
 
         // Añadir progressdialog donde ponga loading para que de sensación de carga
-
 
         changeScreen();
     }

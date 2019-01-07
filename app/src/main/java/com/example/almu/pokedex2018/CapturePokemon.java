@@ -36,6 +36,9 @@ public class CapturePokemon extends AppCompatActivity
                     .into(imageShake);
         }
 
+        // Fragment manager
+        //fm = this.getSupportFragmentManager();
+
         // Uso de la clase ShakeDetector y del acelerómetro al agitar el móvil.
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager
@@ -66,8 +69,9 @@ public class CapturePokemon extends AppCompatActivity
                 if(detallePoke != null){
                     try{
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.captureScreen, detallePoke)
-                                .commitNow();
+                            .replace(R.id.captureScreen, detallePoke)
+                            .addToBackStack(null)
+                            .commit();
                         linearLayout.setVisibility(View.GONE);
                     }catch(IllegalStateException e){
                         e.printStackTrace();
@@ -93,5 +97,16 @@ public class CapturePokemon extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+        {
+            getSupportFragmentManager().popBackStack();
+            linearLayout.setVisibility(View.VISIBLE);
+            return;
+        }
+        super.onBackPressed();
     }
 }

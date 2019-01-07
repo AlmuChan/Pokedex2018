@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +37,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.RECORD_AUDIO;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        PokemonDetailFragment.OnFragmentInteractionListener {
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
@@ -171,6 +173,11 @@ public class MainActivity extends AppCompatActivity
         return pokemonList;
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
     // AsyncTask que recarga la lista del recyclerview
     private class Recarga extends AsyncTask<Void, Void, List<Pokemon>> {
 
@@ -258,8 +265,14 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
-            moveTaskToBack(true);
+            //super.onBackPressed();
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+            {
+                getSupportFragmentManager().popBackStack();
+                rv.setVisibility(View.VISIBLE);
+                return;
+            }
+            //moveTaskToBack(true);
         }
     }
 
