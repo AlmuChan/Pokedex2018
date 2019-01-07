@@ -77,20 +77,22 @@ public class PokemonDetailFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if(bundle != null) {
             String id = bundle.getString("id");
-            String urlImagen = "https://vignette.wikia.nocookie.net/es.pokemon/images/4/43/Bulbasaur.png";
+            String nombre;
+            String urlImagen = "http://www.pokestadium.com/sprites/xy/";
+            Pokemon poke = getPokemon(id);
+            nombre = poke.getNombre().substring(0, 1).toLowerCase()
+                    + poke.getNombre().substring(1);
+            urlImagen += nombre + ".gif";
             if(sprite != null) {
                 GlideApp.with(this)
                         .load(urlImagen)
-                        .placeholder(R.mipmap.ic_pokedex)
                         .into(sprite);
             }
-
-            Pokemon poke = getPokemon(id);
 
             // Asignación de datos al fragment.
             tvNombre.setText("Nombre: " + poke.getNombre());
             tvTipo.setText("Tipos: " + poke.getTipos()[0].getTipo().getNombre());
-            tvHabilidades.setText("Habilidades:" + poke.getHabilidades()[0].getHabilidad().getNombre());
+            tvHabilidades.setText("Habilidades: " + poke.getHabilidades()[0].getHabilidad().getNombre());
         }
 
         return view;

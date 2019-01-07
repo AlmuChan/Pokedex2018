@@ -1,6 +1,8 @@
 package com.example.almu.pokedex2018;
 
-import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>{
     private List<Pokemon> items;
+    //private FragmentManager fragmentManager;
     public RecyclerView recycler;
 
     @Override
@@ -22,7 +25,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
         recycler = recyclerView;
     }
 
-    public class PokemonViewHolder extends RecyclerView.ViewHolder {
+    public class PokemonViewHolder extends RecyclerView.ViewHolder implements
+            PokemonDetailFragment.OnFragmentInteractionListener {
+
         // Campos de la tarjeta para el item
         public ImageView imagen;
         public TextView nombre;
@@ -44,18 +49,40 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
                     int pos = recycler.getChildLayoutPosition(v);
                     String text = "";
 
-                    for(Tipo t : items.get(pos).getTipos())
+                    /*for(Tipo t : items.get(pos).getTipos())
                         text += t.getTipo().getNombre();
 
                     Toast.makeText(v.getContext(),"Pokemon clickado: "
-                            + items.get(pos).id + text, Toast.LENGTH_LONG).show();
+                            + items.get(pos).id + text, Toast.LENGTH_LONG).show();*/
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", "" + pos);
+                    PokemonDetailFragment detallePoke = PokemonDetailFragment.newInstance();
+                    detallePoke.setArguments(bundle);
+
+                   /* if(detallePoke != null){
+                        try{
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.swipeRefreshLayout, detallePoke)
+                                    .commitNow();
+                            //linearLayout.setVisibility(View.GONE);
+                        }catch(IllegalStateException e){
+                            e.printStackTrace();
+                        }
+                    }*/
                 }
             });
         }
+
+        @Override
+        public void onFragmentInteraction(Uri uri) {
+
+        }
     }
 
-    public RVAdapter(List<Pokemon> items) {
+    public RVAdapter(List<Pokemon> items/*, FragmentManager fragmentManager*/) {
         this.items = items;
+        //this.fragmentManager = fragmentManager;
         setHasStableIds(true);
     }
 
