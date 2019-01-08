@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class PokemonDetailFragment extends Fragment {
     private String mParam2;
 
     ImageView sprite;
-    TextView tvNombre, tvTipo, tvHabilidades;
+    TextView tvNombre, tvTipo, tvHabilidades, tvPeso;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,6 +72,7 @@ public class PokemonDetailFragment extends Fragment {
         tvNombre = view.findViewById(R.id.tvNombre);
         tvTipo = view.findViewById(R.id.tvTipo);
         tvHabilidades = view.findViewById(R.id.tvHabilidades);
+        tvPeso = view.findViewById(R.id.tvPeso);
 
         Bundle bundle = this.getArguments();
         if(bundle != null) {
@@ -90,9 +92,14 @@ public class PokemonDetailFragment extends Fragment {
             }
 
             // Asignación de datos al fragment.
-            tvNombre.setText("Nombre: " + poke.getNombre());
-            tvTipo.setText("Tipos: " + poke.getTipos()[0].getTipo().getNombre());
-            tvHabilidades.setText("Habilidades: " + poke.getHabilidades()[0].getHabilidad().getNombre());
+            tvNombre.setText(Html.fromHtml("<b>" + poke.getId()
+                    + ". </b>" + poke.getNombre()));
+            tvTipo.setText(Html.fromHtml("<b>Tipos: </b>"
+                    + poke.getTipos()[0].getTipo().getNombre()));
+            tvHabilidades.setText(Html.fromHtml("<b>Habilidades: </b>"
+                    + poke.getHabilidades()[0].getHabilidad().getNombre()));
+            tvPeso.setText(Html.fromHtml("<b>Peso: </b>" + poke.getPeso()
+                    + "  " + "<b>Altura: </b>" + poke.getAltura()));
         }
 
         return view;

@@ -58,8 +58,8 @@ public class CapturePokemon extends AppCompatActivity
 
                 db.execSQL("UPDATE pokemon SET oculto = 1 WHERE id = " + numCapturado + ";");
 
-                Toast.makeText(CapturePokemon.this, "¡Pokémon "
-                                + numCapturado + " capturado!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CapturePokemon.this, "¡Pokémon capturado!",
+                        Toast.LENGTH_SHORT).show();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("id", "" + numCapturado);
@@ -104,7 +104,8 @@ public class CapturePokemon extends AppCompatActivity
         if (getSupportFragmentManager().getBackStackEntryCount() > 0)
         {
             getSupportFragmentManager().popBackStack();
-            linearLayout.setVisibility(View.VISIBLE);
+            if(getSupportFragmentManager().getBackStackEntryCount() == 1)
+                linearLayout.setVisibility(View.VISIBLE);
             return;
         }
         super.onBackPressed();

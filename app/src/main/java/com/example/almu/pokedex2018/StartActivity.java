@@ -16,10 +16,10 @@ public class StartActivity extends AppCompatActivity {
 
     ImageView imageLogo;
     TextView tv_fraseStart;
-    String[] frases = {"Dándole una chuche a Squirtle ...","Sacando a pasear a Arcanine ...",
-        "Peinando a Ninetales ...","Bañando a Eeve ...", "Despertando a Snorlax ...",
-        "Abrazando a Jigglypuff ...","Encendiendo la cola de Charmander ...",
-        "Probándole ropa a Pikachu ...","Dándole su hueso a Cubone ..."};
+    String[] frases = {"Dándole una chuche a Squirtle...","Sacando a pasear a Arcanine...",
+        "Peinando a Ninetales...","Bañando a Eeve...", "Despertando a Snorlax...",
+        "Abrazando a Jigglypuff...","Encendiendo la cola de Charmander...",
+        "Probándole ropa a Pikachu...","Dándole su hueso a Cubone..."};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

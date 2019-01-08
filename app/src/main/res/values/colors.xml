@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#D7263D</color>
     <color name="colorPrimaryDark">#b30000</color>
-    <color name="colorAccent">#4357AD</color>
+    <color name="colorAccent">#4357ad</color>
 
     <color name="tipoAgua">#99CCFF</color>
     <color name="tipoBicho">#CCFF99</color>

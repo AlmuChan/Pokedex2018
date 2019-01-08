@@ -63,6 +63,9 @@ public class BDPokemon extends SQLiteOpenHelper {
                     String nombreMayus = pokemon.getNombre().substring(0, 1).toUpperCase()
                             + pokemon.getNombre().substring(1);
 
+                    if(nombreMayus.contains("-"))
+                        nombreMayus = nombreMayus.replace("-","");
+
                     db.execSQL("INSERT INTO pokemon(id,nombre,altura,peso,tipos,habilidades,oculto)"
                             + " VALUES" +
                             "( " + pokemon.getId() + ",'" + nombreMayus + "'," + pokemon.getAltura()
