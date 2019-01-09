@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#D7263D</color>
+    <color name="colorPrimary">#d7263d</color>
     <color name="colorPrimaryDark">#b30000</color>
     <color name="colorAccent">#4357ad</color>
 
     <color name="tipoAgua">#99CCFF</color>
-    <color name="tipoBicho">#CCFF99</color>
-    <color name="tipoDragon">#9999FF</color>
+    <color name="tipoBicho">#ccff99</color>
+    <color name="tipoDragon">#9999ff</color>
     <color name="tipoElectrico">#FFFF99</color>
     <color name="tipoFantasma">#CC99FF</color>
     <color name="tipoFuego">#FF9999</color>
@@ -16,7 +16,7 @@
     <color name="tipoPlanta">#99FF99</color>
     <color name="tipoPsiquico">#FF99CC</color>
     <color name="tipoRoca">#F5DEB3</color>
-    <color name="tipoTierra">#FFFFE0</color>
+    <color name="tipoTierra">#ffffe0</color>
     <color name="tipoVeneno">#DDA0DD</color>
     <color name="tipoVolador">#87CEFA</color>
     <color name="desconocido">#C8C8C8</color>

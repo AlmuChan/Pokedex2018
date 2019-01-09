@@ -1,6 +1,7 @@
 package com.example.almu.pokedex2018;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +40,7 @@ public class PokemonDetailFragment extends Fragment {
 
     ImageView sprite;
     TextView tvNombre, tvTipo, tvHabilidades, tvPeso;
+    Button localizacion;
 
     private OnFragmentInteractionListener mListener;
 
@@ -100,10 +103,21 @@ public class PokemonDetailFragment extends Fragment {
                     + poke.getHabilidades()[0].getHabilidad().getNombre()));
             tvPeso.setText(Html.fromHtml("<b>Peso: </b>" + poke.getPeso() + " kg "
                     + "  " + "<b>Altura: </b>" + poke.getAltura() + " m"));
+
+            localizacion = view.findViewById(R.id.btn_localizacion);
+            localizacion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), MapScreen.class);
+                    startActivity(intent);
+                }
+            });
+
         }
 
         return view;
     }
+
 
     /*private Pokemon getPokemon(String strId) {
         List<Pokemon> pokemonList = new ArrayList<>();
