@@ -130,8 +130,8 @@ public class MainActivity extends AppCompatActivity
             do {
                 Integer id = c.getInt(0);
                 String nombre = c.getString(1);
-                Integer altura = c.getInt(2);
-                Integer peso = c.getInt(3);
+                double altura = c.getDouble(2);
+                double peso = c.getDouble(3);
                 String tipoString = c.getString(4);
                 String habilidadString = c.getString(5);
                 Integer oculto = c.getInt(6);

@@ -60,9 +60,9 @@ public class Pokemon {
     @SerializedName("name")
     String nombre;
     @SerializedName("weight")
-    Integer peso;
+    double peso;
     @SerializedName("height")
-    Integer altura;
+    double altura;
     @SerializedName("types")
     Tipo[] tipos;
     @SerializedName("abilities")
@@ -71,7 +71,7 @@ public class Pokemon {
 
     //List<String> evoluciones;
 
-    public Pokemon(Integer id, String nombre, Integer peso, Integer altura,
+    public Pokemon(Integer id, String nombre, double altura, double peso,
                    Tipo[] tipos, Habilidad[] habilidades, int oculto) {
         this.id = id;
         this.nombre = nombre;
@@ -98,19 +98,19 @@ public class Pokemon {
         this.nombre = nombre;
     }
 
-    public Integer getPeso() {
+    public double getPeso() {
         return peso;
     }
 
-    public void setPeso(Integer peso) {
+    public void setPeso(double peso) {
         this.peso = peso;
     }
 
-    public Integer getAltura() {
+    public double getAltura() {
         return altura;
     }
 
-    public void setAltura(Integer altura) {
+    public void setAltura(double altura) {
         this.altura = altura;
     }
 

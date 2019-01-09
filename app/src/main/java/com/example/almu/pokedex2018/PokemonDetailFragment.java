@@ -98,8 +98,8 @@ public class PokemonDetailFragment extends Fragment {
                     + poke.getTipos()[0].getTipo().getNombre()));
             tvHabilidades.setText(Html.fromHtml("<b>Habilidades: </b>"
                     + poke.getHabilidades()[0].getHabilidad().getNombre()));
-            tvPeso.setText(Html.fromHtml("<b>Peso: </b>" + poke.getPeso()
-                    + "  " + "<b>Altura: </b>" + poke.getAltura()));
+            tvPeso.setText(Html.fromHtml("<b>Peso: </b>" + poke.getPeso() + " kg "
+                    + "  " + "<b>Altura: </b>" + poke.getAltura() + " m"));
         }
 
         return view;

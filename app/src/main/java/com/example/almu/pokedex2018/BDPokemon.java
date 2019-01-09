@@ -19,7 +19,7 @@ public class BDPokemon extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String sqlCreate = "CREATE TABLE pokemon (" +
-                "id INT,nombre TEXT,altura INT,peso INT, tipos TEXT, habilidades TEXT, oculto INT)";
+                "id INT,nombre TEXT,altura DOUBLE,peso DOUBLE, tipos TEXT, habilidades TEXT, oculto INT)";
         db.execSQL(sqlCreate);
 
         this.db = db;
@@ -68,8 +68,8 @@ public class BDPokemon extends SQLiteOpenHelper {
 
                     db.execSQL("INSERT INTO pokemon(id,nombre,altura,peso,tipos,habilidades,oculto)"
                             + " VALUES" +
-                            "( " + pokemon.getId() + ",'" + nombreMayus + "'," + pokemon.getAltura()
-                            + "," + pokemon.getPeso() + ",'" + tipos + "','" + habilidades + "',"
+                            "( " + pokemon.getId() + ",'" + nombreMayus + "'," + (pokemon.getAltura() / 10)
+                            + "," + (pokemon.getPeso() / 10) + ",'" + tipos + "','" + habilidades + "',"
                             + 0 + ");");
                 }
 
@@ -90,8 +90,8 @@ public class BDPokemon extends SQLiteOpenHelper {
             do {
                 Integer id = c.getInt(0);
                 String nombre = c.getString(1);
-                Integer altura = c.getInt(2);
-                Integer peso = c.getInt(3);
+                double altura = c.getDouble(2);
+                double peso = c.getDouble(3);
                 String tipoString = c.getString(4);
                 String habilidadString = c.getString(5);
                 Integer oculto = c.getInt(6);
