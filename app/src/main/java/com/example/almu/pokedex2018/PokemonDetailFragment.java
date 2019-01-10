@@ -113,6 +113,13 @@ public class PokemonDetailFragment extends Fragment {
                 }
             });
 
+
+            sprite.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    PokeUtils.playSound(Integer.parseInt(id));
+                }
+            });
+
         }
 
         return view;
