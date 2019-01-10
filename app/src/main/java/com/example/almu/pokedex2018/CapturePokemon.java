@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import java.io.IOException;
 import java.util.Random;
 
 public class CapturePokemon extends AppCompatActivity
@@ -61,6 +65,9 @@ public class CapturePokemon extends AppCompatActivity
                 Toast.makeText(CapturePokemon.this, "¡Pokémon capturado!",
                         Toast.LENGTH_SHORT).show();
 
+                // Sonido al capturar
+                playSound(numCapturado);
+
                 Bundle bundle = new Bundle();
                 bundle.putString("id", "" + numCapturado);
                 PokemonDetailFragment detallePoke = PokemonDetailFragment.newInstance();
@@ -109,5 +116,30 @@ public class CapturePokemon extends AppCompatActivity
             return;
         }
         super.onBackPressed();
+    }
+
+    public void playSound(int numCapturado) {
+        String idFormatted = String.format("%03d", numCapturado);
+        String url = "http://pokedream.com/pokedex/images/cries/" + idFormatted + ".mp3";
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        try {
+            mediaPlayer.setDataSource(url);
+        } catch (IOException e) {
+        }
+        mediaPlayer.prepareAsync();
+        //You can show progress dialog here untill it prepared to play
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
+        });
+        mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                return false;
+            }
+        });
     }
 }
