@@ -9,10 +9,6 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Importar nuevos Pokémon" />
         <item
-            android:id="@+id/nav_list"
-            android:icon="@mipmap/ic_list"
-            android:title="Lista de Pokémon descubiertos" />
-        <item
             android:id="@+id/nav_capture"
             android:icon="@mipmap/ic_capture"
             android:title="Capturar nuevos Pokémon" />

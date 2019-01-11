@@ -44,10 +44,6 @@
             android:name=".MapScreen"
             android:label="Localización de Pokémon"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".ListScreen"
-            android:label="Pokémon capturados"
-            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
