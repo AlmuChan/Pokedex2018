@@ -2,9 +2,6 @@ package com.example.almu.pokedex2018;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -95,7 +89,7 @@ public class PokemonDetailFragment extends Fragment {
             }
 
             // Asignación de datos al fragment.
-            tvNombre.setText(Html.fromHtml("<b>" + poke.getId()
+            tvNombre.setText(Html.fromHtml("<b>#" + String.format("%03d", poke.getId())
                     + ". </b>" + poke.getNombre()));
             tvTipo.setText(Html.fromHtml("<b>Tipos: </b>"
                     + poke.getTipos()[0].getTipo().getNombre()));
@@ -109,11 +103,17 @@ public class PokemonDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), MapScreen.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("latitud", poke.getLatitud());
+                    bundle.putDouble("longitud", poke.getLongitud());
+
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             });
 
-
+            // Sonido de pokémon al clicar en imagen.
             sprite.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     PokeUtils.playSound(Integer.parseInt(id));
@@ -124,58 +124,6 @@ public class PokemonDetailFragment extends Fragment {
 
         return view;
     }
-
-
-    /*private Pokemon getPokemon(String strId) {
-        List<Pokemon> pokemonList = new ArrayList<>();
-        String[] args = new String[]{};
-        BDPokemon pokemons = new BDPokemon(getContext(), "BDPokemon", null, 1);
-        SQLiteDatabase db = pokemons.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM pokemon WHERE id = " + strId + " ORDER BY id;", args);
-
-        if(c.moveToFirst()) {
-            do {
-                Integer id = c.getInt(0);
-                String nombre = c.getString(1);
-                Integer altura = c.getInt(2);
-                Integer peso = c.getInt(3);
-                String tipoString = c.getString(4);
-                String habilidadString = c.getString(5);
-                Integer oculto = c.getInt(6);
-
-                // Tipos
-                Tipo[] tipo;
-                if (tipoString.contains(";")) {
-                    tipo = new Tipo[2];
-                    tipo[0] = new Tipo(new Contenido(tipoString.split(";")[0]));
-                    tipo[1] = new Tipo(new Contenido(tipoString.split(";")[1]));
-                } else {
-                    tipo = new Tipo[1];
-                    tipo[0] = new Tipo(new Contenido(tipoString));
-                }
-
-                // Habilidades
-                Habilidad[] habilidades;
-                if (habilidadString.contains(";")) {
-                    habilidades = new Habilidad[2];
-                    habilidades[0] = new Habilidad(
-                            new Contenido(habilidadString.split(";")[0]));
-                    habilidades[1] = new Habilidad(
-                            new Contenido(habilidadString.split(";")[1]));
-                } else {
-                    habilidades = new Habilidad[1];
-                    habilidades[0] = new Habilidad(new Contenido(habilidadString));
-                }
-
-                Pokemon p = new Pokemon(id, nombre, altura, peso, tipo, habilidades, oculto);
-                pokemonList.add(p);
-
-            } while (c.moveToNext());
-
-        }
-
-        return pokemonList.get(0);
-    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

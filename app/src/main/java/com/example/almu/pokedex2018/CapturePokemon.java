@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,9 +37,6 @@ public class CapturePokemon extends AppCompatActivity
                     .load(urlGif)
                     .into(imageShake);
         }
-
-        // Fragment manager
-        //fm = this.getSupportFragmentManager();
 
         // Uso de la clase ShakeDetector y del acelerómetro al agitar el móvil.
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -117,6 +112,4 @@ public class CapturePokemon extends AppCompatActivity
         }
         super.onBackPressed();
     }
-
-
 }

@@ -113,7 +113,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
                     .load(R.mipmap.desconocido)
                     .into(viewHolder.imagen);
 
-            viewHolder.nombre.setText(items.get(i).id + ". ????");
+            viewHolder.nombre.setText("#" + String.format("%03d", items.get(i).id) + ". ????");
 
             // Tipos
             viewHolder.tipo.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),
@@ -132,7 +132,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
                     .placeholder(R.mipmap.desconocido)
                     .into(viewHolder.imagen);
 
-            viewHolder.nombre.setText(items.get(i).id + ". " + items.get(i).nombre);
+            viewHolder.nombre.setText("#" + String.format("%03d", items.get(i).id)
+                    + ". " + items.get(i).nombre);
 
             // Tipos
             viewHolder.tipo.setBackgroundColor(ContextCompat.getColor(viewHolder.view.getContext(),

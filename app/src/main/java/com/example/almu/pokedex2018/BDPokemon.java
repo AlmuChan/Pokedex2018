@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,7 +21,8 @@ public class BDPokemon extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String sqlCreate = "CREATE TABLE pokemon (" +
-                "id INT,nombre TEXT,altura DOUBLE,peso DOUBLE, tipos TEXT, habilidades TEXT, oculto INT)";
+                "id INT,nombre TEXT,altura DOUBLE,peso DOUBLE, tipos TEXT, habilidades TEXT, " +
+                "oculto INT, latitud DOUBLE, longitud DOUBLE)";
         db.execSQL(sqlCreate);
 
         this.db = db;
@@ -42,6 +45,7 @@ public class BDPokemon extends SQLiteOpenHelper {
                 public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
                     Pokemon pokemon = response.body();
                     String tipos = "", habilidades = "";
+                    Random r = new Random();
 
                     // Tipos
                     if (pokemon.getTipos().length == 2) {
@@ -66,11 +70,13 @@ public class BDPokemon extends SQLiteOpenHelper {
                     if(nombreMayus.contains("-"))
                         nombreMayus = nombreMayus.replace("-","");
 
-                    db.execSQL("INSERT INTO pokemon(id,nombre,altura,peso,tipos,habilidades,oculto)"
+                    db.execSQL("INSERT INTO pokemon(id,nombre,altura,peso,tipos,habilidades," +
+                            "oculto,latitud,longitud)"
                             + " VALUES" +
                             "( " + pokemon.getId() + ",'" + nombreMayus + "'," + (pokemon.getAltura() / 10)
                             + "," + (pokemon.getPeso() / 10) + ",'" + tipos + "','" + habilidades + "',"
-                            + 0 + ");");
+                            + 0 + "," + ((r.nextDouble() * -180.0) + 90.0) + "," +
+                            ((r.nextDouble() * -360.0) + 180.0) + ");");
                 }
 
                 @Override
@@ -95,6 +101,8 @@ public class BDPokemon extends SQLiteOpenHelper {
                 String tipoString = c.getString(4);
                 String habilidadString = c.getString(5);
                 Integer oculto = c.getInt(6);
+                double latitud = c.getDouble(7);
+                double longitud = c.getDouble(8);
 
                 // Tipos
                 Tipo[] tipo;
@@ -120,7 +128,7 @@ public class BDPokemon extends SQLiteOpenHelper {
                     habilidades[0] = new Habilidad(new Contenido(habilidadString));
                 }
 
-                Pokemon p = new Pokemon(id, nombre, altura, peso, tipo, habilidades, oculto);
+                Pokemon p = new Pokemon(id, nombre, altura, peso, tipo, habilidades, oculto, latitud, longitud);
                 pokemonList.add(p);
 
             } while (c.moveToNext());

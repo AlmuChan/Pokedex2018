@@ -38,10 +38,16 @@
         </activity>
         <activity
             android:name=".CapturePokemon"
-            android:parentActivityName=".MainActivity"></activity>
+            android:label="Captura de Pokémon"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MapScreen"
-            android:parentActivityName=".MainActivity"></activity>
+            android:label="Localización de Pokémon"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ListScreen"
+            android:label="Pokémon capturados"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
