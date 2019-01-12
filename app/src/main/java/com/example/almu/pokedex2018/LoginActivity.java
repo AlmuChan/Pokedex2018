@@ -1,6 +1,7 @@
 package com.example.almu.pokedex2018;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +36,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txtUsuario = findViewById(R.id.etxtUsuario);
         txtError = findViewById(R.id.txtError);
 
+        SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
+        if (preferences.getBoolean("remember", false)) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+
         btnAcceder.setOnClickListener(this);
     }
 
@@ -57,6 +64,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         protected void onPostExecute(String s) {
             if(s.equals("0"))
             {
+                SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("remember", true);
+                editor.commit();
+
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -71,9 +83,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             try {
                 HttpURLConnection urlConn;
-
-                DataOutputStream printout;
-                DataInputStream input;
                 URL url = new URL("http://almudenalopezsanchez.000webhostapp.com/consultaLogin.php");
                 urlConn = (HttpURLConnection) url.openConnection();
                 urlConn.setDoInput(true);
@@ -82,11 +91,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 urlConn.setRequestProperty("Content-Type", "application/json");
                 urlConn.setRequestProperty("Accept", "application/json");
                 urlConn.connect();
-                //Creo el Objeto JSON
+
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("usuario", strings[0]);
                 jsonParam.put("password", strings[1]);
-                // Envio los parametros por post.
+
                 OutputStream os = urlConn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
@@ -105,10 +114,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         result.append(line);
                     }
                     br.close();
-                    //Creamos un objeto JSONObject para poder acceder a los atributos (campos) del objeto.
-                    JSONObject respuestaJSON = new JSONObject(result.toString());   //Creo un JSONObject a partir del StringBuilder pasado a cadena
 
-                    String resultJSON = respuestaJSON.getString("estado");   // estado es el nombre del campo en el JSON
+                    JSONObject respuestaJSON = new JSONObject(result.toString());
+
+                    String resultJSON = respuestaJSON.getString("estado");
 
                     return resultJSON;
                 }
@@ -117,5 +126,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
             return null;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }
