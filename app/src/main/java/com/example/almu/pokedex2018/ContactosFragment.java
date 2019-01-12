@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,11 +103,6 @@ public class ContactosFragment extends Fragment {
                             c.getString(1) + ";";
             String telefono = c.getString(2);
 
-            while(telefono.contains(" "))
-            {
-                telefono = telefono.replace(" ", "");
-            }
-
             if(telefono.length() > 9)
             {
                 telefono = telefono.substring(3);
@@ -125,7 +121,6 @@ public class ContactosFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
 
-            texto.setText(s);
             if(s.equals(""))
             {
                 texto.setText("No tienes contactos que usen esta app");
@@ -141,8 +136,8 @@ public class ContactosFragment extends Fragment {
                     for(int i = 0; i < telefonos.length; i++ ) {
 
                         if (contacto.split(";")[1].equals(telefonos[i])) {
-                            resultado += "Nombre: " + contacto.split(";")[0] +
-                                    " Teléfono: " + contacto.split(";")[1] + "\n";
+                            resultado +=  contacto.split(";")[0] +
+                                    " - " + contacto.split(";")[1] + "\n";
                         }
                     }
                 }

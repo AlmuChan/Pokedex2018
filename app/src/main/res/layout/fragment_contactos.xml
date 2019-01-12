@@ -8,10 +8,22 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Contactos que tienen la app instalada"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/tv_texto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="?attr/actionBarSize"
-        android:text="vacio" />
+        android:fontFamily="sans-serif-smallcaps"
+        android:padding="@dimen/fab_margin"
+        android:textSize="18sp" />
 
 </LinearLayout>
