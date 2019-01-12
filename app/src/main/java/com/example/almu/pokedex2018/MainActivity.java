@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,7 +39,8 @@ import static android.Manifest.permission.RECORD_AUDIO;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        PokemonDetailFragment.OnFragmentInteractionListener {
+        PokemonDetailFragment.OnFragmentInteractionListener,
+        ContactosFragment.OnFragmentInteractionListener{
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
@@ -314,7 +316,18 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, MapScreen.class);
             startActivity(intent);
         } else if (id == R.id.nav_contacts) {
-            getContacts();
+            ContactosFragment contactosFragment= ContactosFragment.newInstance();
+            if(contactosFragment != null){
+                try{
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frameLista, contactosFragment)
+                            .addToBackStack(null)
+                            .commit();
+                    rv.setVisibility(View.GONE);
+                }catch(IllegalStateException e){
+                    e.printStackTrace();
+                }
+            }
         } else if (id == R.id.nav_manage) {
 
         }
@@ -325,46 +338,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     // Contactos que tienen instalada la app en su dispositivo.
-    public void getContacts(){
-        String s;
 
-        String[] datos = new String[] { ContactsContract.Data._ID,
-                ContactsContract.Data.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER,
-                ContactsContract.CommonDataKinds.Phone.TYPE };
-
-        String selectionClause = ContactsContract.Data.MIMETYPE + "='" +
-                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE + "' AND "
-                + ContactsContract.CommonDataKinds.Phone.NUMBER + " IS NOT NULL";
-
-        String sortOrder = ContactsContract.Data.DISPLAY_NAME + " ASC";
-
-        Cursor c = getContentResolver().query(
-                ContactsContract.Data.CONTENT_URI,
-                datos,
-                selectionClause,
-                null,
-                sortOrder);
-
-        s = "";
-
-        while(c.moveToNext()){
-            s += "Identificador: " +
-                    c.getString(0) +
-                    " Nombre: " +
-                    c.getString(1) +
-                    " Número: " +
-                    c.getString(2)+
-                    " Tipo: " +
-                    c.getString(3)+"\n";
-        }
-        c.close();
-
-        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-
-        // Mostrar sólo cuales tienen la app instalada
-        // TODO
-    }
 
     @Override
     protected void onResume() {

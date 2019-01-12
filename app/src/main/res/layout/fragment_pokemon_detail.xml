@@ -21,7 +21,6 @@
             android:layout_height="130dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:onClick=""
             android:src="@mipmap/ic_pokedex" />
 
         <LinearLayout

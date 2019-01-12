@@ -56,7 +56,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     protected void changeScreen() {
-        final Intent intent = new Intent(this, MainActivity.class);
+        final Intent intent = new Intent(this, LoginActivity.class);
         int duration = 3000;
 
         SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);

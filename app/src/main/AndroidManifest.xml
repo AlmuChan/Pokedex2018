@@ -44,6 +44,9 @@
             android:name=".MapScreen"
             android:label="Localización de Pokémon"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="Login"></activity>
     </application>
 
 </manifest>
