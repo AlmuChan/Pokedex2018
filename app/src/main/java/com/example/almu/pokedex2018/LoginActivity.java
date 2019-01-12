@@ -12,8 +12,6 @@ import android.widget.TextView;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -67,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("remember", true);
+                editor.putString("user", txtUsuario.getText().toString());
                 editor.commit();
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);

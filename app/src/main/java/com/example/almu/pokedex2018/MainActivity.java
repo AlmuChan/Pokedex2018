@@ -121,6 +121,10 @@ public class MainActivity extends AppCompatActivity
                 r.execute();
             }
         });
+
+        // Nombre user
+        SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
+        this.setTitle("Pokédex de " + preferences.getString("user", ""));
     }
 
     private List<Pokemon> cargarDatos() {
