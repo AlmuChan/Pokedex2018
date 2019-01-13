@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity
     LinearLayoutManager llm;
     SQLiteDatabase db;
     SwipeRefreshLayout swipeRefreshLayout;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +77,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Manda un mensaje a tu pokémon favorito", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
@@ -107,6 +100,18 @@ public class MainActivity extends AppCompatActivity
         // Datos para las cardview en una lista que irá al adapter
         // Cargamos la lista con Retrofit y la pokeApi
         List<Pokemon> pokemonList = cargarDatos();
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        if(pref.getBoolean("mostrarCapturados", true))
+        {
+            List<Pokemon> pokemonListDesbloqueados = new ArrayList<>();
+            for(Pokemon p : pokemonList)
+            {
+                if(p.getOculto() == 1) {
+                    pokemonListDesbloqueados.add(p);
+                }
+            }
+            pokemonList = pokemonListDesbloqueados;
+        }
 
         RVAdapter adapter = new RVAdapter(pokemonList);
         rv.setAdapter(adapter);
@@ -186,13 +191,21 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected List<Pokemon> doInBackground(Void... params) {
-            /*try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
+            List<Pokemon> pokemonList = cargarDatos();
 
-            return cargarDatos();
+            if(pref.getBoolean("mostrarCapturados", true))
+            {
+                List<Pokemon> pokemonListDesbloqueados = new ArrayList<>();
+                for(Pokemon p : pokemonList)
+                {
+                    if(p.getOculto() == 1) {
+                        pokemonListDesbloqueados.add(p);
+                    }
+                }
+                pokemonList = pokemonListDesbloqueados;
+            }
+
+            return pokemonList;
         }
 
         @Override
@@ -301,7 +314,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(this,PreferenciasActivity.class));
         } else if (id == R.id.action_logout) {
             SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
@@ -329,6 +342,11 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, MapScreen.class);
             startActivity(intent);
         } else if (id == R.id.nav_contacts) {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+            {
+                getSupportFragmentManager().popBackStack();
+            }
+
             ContactosFragment contactosFragment= ContactosFragment.newInstance();
             if(contactosFragment != null){
                 try{
@@ -342,16 +360,13 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         } else if (id == R.id.nav_manage) {
-
+            startActivity(new Intent(this,PreferenciasActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    // Contactos que tienen instalada la app en su dispositivo.
-
 
     @Override
     protected void onResume() {

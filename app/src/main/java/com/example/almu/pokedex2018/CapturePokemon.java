@@ -1,10 +1,12 @@
 package com.example.almu.pokedex2018;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -61,7 +63,10 @@ public class CapturePokemon extends AppCompatActivity
                         Toast.LENGTH_SHORT).show();
 
                 // Sonido al capturar
-                PokeUtils.playSound(numCapturado);
+                SharedPreferences pref =
+                        PreferenceManager.getDefaultSharedPreferences(CapturePokemon.this);
+                if(pref.getBoolean("checkSonido", true))
+                    PokeUtils.playSound(numCapturado);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("id", "" + numCapturado);

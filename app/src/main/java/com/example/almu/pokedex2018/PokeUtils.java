@@ -5,9 +5,10 @@ import android.media.MediaPlayer;
 
 import java.io.IOException;
 
-public class PokeUtils {
+public class PokeUtils{
 
     public static void playSound(int numCapturado) {
+
         String idFormatted = String.format("%03d", numCapturado);
         String url = "http://pokedream.com/pokedex/images/cries/" + idFormatted + ".mp3";
         MediaPlayer mediaPlayer = new MediaPlayer();
@@ -30,5 +31,6 @@ public class PokeUtils {
                 return false;
             }
         });
+
     }
 }

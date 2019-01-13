@@ -2,8 +2,10 @@ package com.example.almu.pokedex2018;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -116,7 +118,10 @@ public class PokemonDetailFragment extends Fragment {
             // Sonido de pokémon al clicar en imagen.
             sprite.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    PokeUtils.playSound(Integer.parseInt(id));
+                    SharedPreferences pref =
+                            PreferenceManager.getDefaultSharedPreferences(v.getContext());
+                    if(pref.getBoolean("checkSonido", true))
+                        PokeUtils.playSound(Integer.parseInt(id));
                 }
             });
 

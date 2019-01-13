@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Datos de Usuario">
+
+        <EditTextPreference
+            android:key="nombreUsuario"
+            android:title="Nombre de Usuario"
+            android:summary="Identifica al usuario de la aplicación"
+            android:dialogTitle="Introduce nombre"/>
+        <EditTextPreference
+            android:key="passwordUsuario"
+            android:title="Contraseña de Usuario"
+            android:summary="Contraseña del usuario de la aplicación"
+            android:dialogTitle="Introduce contraseña"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Opciones de Sonido">
+
+        <CheckBoxPreference
+            android:key="checkSonido"
+            android:title="Sonido"
+            android:summary="Activa o desactiva el sonido"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Opciones de la lista de Pokémon">
+
+        <CheckBoxPreference
+            android:key="mostrarCapturados"
+            android:title="Mostrar sólo capturados"
+            android:summary="Muestra todos los Pokémon o sólo los desbloqueados"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

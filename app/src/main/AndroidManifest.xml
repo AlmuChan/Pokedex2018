@@ -47,6 +47,9 @@
         <activity
             android:name=".LoginActivity"
             android:label="Login"></activity>
+        <activity
+            android:name=".PreferenciasActivity"
+            android:label="Preferencias"></activity>
     </application>
 
 </manifest>
