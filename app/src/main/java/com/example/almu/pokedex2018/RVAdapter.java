@@ -36,7 +36,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
         public Button tipo2;
         public View view;
 
-        public PokemonViewHolder(View v) {
+        public PokemonViewHolder(View v,int i) {
             super(v);
             view = v;
             imagen = v.findViewById(R.id.imagen);
@@ -48,14 +48,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
             //Cuando se hace click en una tarjeta
             view.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    int pos = recycler.getChildLayoutPosition(v) + 1;
+                    int pos = recycler.getChildLayoutPosition(v);
                     BDPokemon pokemons = new BDPokemon(v.getContext(), "BDPokemon", null, 1);
 
                     Bundle bundle = new Bundle();
-                    bundle.putString("id", "" + pos);
+                    bundle.putString("id", "" + items.get(pos).id);
                     PokemonDetailFragment detallePoke = PokemonDetailFragment.newInstance();
                     detallePoke.setArguments(bundle);
-                    Pokemon poke = pokemons.getPokemon("" + pos);
+
+                    Pokemon poke = pokemons.getPokemon(items.get(pos).id+"");
 
                    if(detallePoke != null && poke.getOculto() == 1){
                         try{
@@ -100,7 +101,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PokemonViewHolder>
     public PokemonViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.card_view, viewGroup, false);
-        return new PokemonViewHolder(v);
+        return new PokemonViewHolder(v,i);
     }
 
     // Colocamos todos los datos de una tarjeta
