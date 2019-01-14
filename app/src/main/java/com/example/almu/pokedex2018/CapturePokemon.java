@@ -196,7 +196,10 @@ public class CapturePokemon extends AppCompatActivity
 
             // Actualiza pokemon en usuario db
             ActualizarPokes actualizarPokes = new ActualizarPokes();
-            actualizarPokes.execute(s + ";" + numC, usuario);
+            if(s.equals(""))
+                actualizarPokes.execute("" + numC, usuario);
+            else
+                actualizarPokes.execute(s + ";" + numC, usuario);
         }
 
         @Override

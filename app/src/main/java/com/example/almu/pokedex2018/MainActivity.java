@@ -130,6 +130,12 @@ public class MainActivity extends AppCompatActivity
         // Nombre user
         SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
         this.setTitle("Pokédex de " + preferences.getString("user", ""));
+
+        // Poner user y pass en preferencias
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("nombreUsuario", preferences.getString("user", ""));
+        editor.putString("passwordUsuario", preferences.getString("password", ""));
+        editor.commit();
     }
 
     private List<Pokemon> cargarDatos() {
@@ -333,9 +339,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_capture) {
+        if (id == R.id.nav_capture) {
             Intent intent = new Intent(this, CapturePokemon.class);
             startActivity(intent);
         } else if(id == R.id.nav_map) {

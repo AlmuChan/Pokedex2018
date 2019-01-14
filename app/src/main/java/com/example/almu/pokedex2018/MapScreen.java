@@ -1,29 +1,30 @@
 package com.example.almu.pokedex2018;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.widget.Toast;
+import com.mapbox.android.core.permissions.PermissionsListener;
+import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.location.LocationComponent;
+import com.mapbox.mapboxsdk.location.modes.CameraMode;
+import com.mapbox.mapboxsdk.location.modes.RenderMode;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import java.util.List;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Random;
-
-
-public class MapScreen extends AppCompatActivity {
+public class MapScreen extends AppCompatActivity implements
+        PermissionsListener {
     private MapView mapView;
     private MapboxMap mapboxMap;
     private String token = "pk.eyJ1IjoiYWx1bTI2IiwiYSI6ImNqcGp1N2o3bDAza3UzcW41YnR6bzI2NnIifQ.mbyex_W6B8HxCtskCBfsXg";
+    private PermissionsManager permissionsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +64,12 @@ public class MapScreen extends AppCompatActivity {
 
                 mapboxMap.addImage("Marcador", icon);
                 */
+
+                enableLocationComponent();
+
                 mapboxMap.addMarker(new MarkerOptions()
                         .position(new LatLng(latitud, longitud))
-                        .title("Título del marcador")
-                        .snippet("Contenido del marcador"));
+                        .title("Ubicación de Pokémon"));
 
                 // Cámara
                 CameraPosition position = new CameraPosition.Builder()
@@ -79,6 +82,51 @@ public class MapScreen extends AppCompatActivity {
                         2000);
             }
         });
+    }
+
+    @SuppressWarnings( {"MissingPermission"})
+    private void enableLocationComponent() {
+        // Check if permissions are enabled and if not request
+        if (PermissionsManager.areLocationPermissionsGranted(this)) {
+
+            // Get an instance of the component
+            LocationComponent locationComponent = mapboxMap.getLocationComponent();
+
+            // Activate
+            locationComponent.activateLocationComponent(this);
+
+            // Enable to make component visible
+            locationComponent.setLocationComponentEnabled(true);
+
+            // Set the component's camera mode
+            //locationComponent.setCameraMode(CameraMode.TRACKING);
+
+            // Set the component's render mode
+            locationComponent.setRenderMode(RenderMode.COMPASS);
+        } else {
+            permissionsManager = new PermissionsManager(this);
+            permissionsManager.requestLocationPermissions(this);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onExplanationNeeded(List<String> permissionsToExplain) {
+        Toast.makeText(this, "Necesitas activar la ubicación", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPermissionResult(boolean granted) {
+        if (granted) {
+            enableLocationComponent();
+        } else {
+            Toast.makeText(this, "Tienes que dar permiso para usar la ubicación", Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 
     @Override

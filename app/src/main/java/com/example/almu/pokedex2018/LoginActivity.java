@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("remember", true);
                 editor.putString("user", txtUsuario.getText().toString());
+                editor.putString("password", txtPassword.getText().toString());
                 editor.commit();
 
                 ObtenerPokemonsCapturados servicio = new ObtenerPokemonsCapturados();
