@@ -38,9 +38,10 @@
             android:id="@+id/tdireccion" />
 
         <EditText
+            android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/et_password" />
+            android:inputType="textPassword" />
     </LinearLayout>
 
     <LinearLayout
@@ -55,9 +56,10 @@
             android:id="@+id/tid" />
 
         <EditText
+            android:id="@+id/et_telefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/et_telefono" />
+            android:inputType="phone" />
     </LinearLayout>
 
     <Button
