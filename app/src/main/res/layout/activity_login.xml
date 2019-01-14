@@ -69,6 +69,12 @@
             android:layout_height="wrap_content"
             android:text="Acceder" />
 
+        <Button
+            android:id="@+id/btnRegistro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registrarse" />
+
         <TextView
             android:id="@+id/txtError"
             android:layout_width="match_parent"

@@ -10,9 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,6 +22,7 @@ import java.net.URL;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button btnAcceder;
+    Button btnRegistro;
     EditText txtUsuario, txtPassword;
     TextView txtError;
 
@@ -34,6 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         btnAcceder = findViewById(R.id.btnAcceder);
+        btnRegistro = findViewById(R.id.btnRegistro);
         txtPassword = findViewById(R.id.etxtPassword);
         txtUsuario = findViewById(R.id.etxtUsuario);
         txtError = findViewById(R.id.txtError);
@@ -45,6 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         btnAcceder.setOnClickListener(this);
+        btnRegistro.setOnClickListener(this);
     }
 
     @Override
@@ -56,6 +56,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 obtenerWebService.execute(txtUsuario.getText().toString(),
                         txtPassword.getText().toString());
 
+                break;
+            case R.id.btnRegistro:
+                Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
+                startActivity(intent);
                 break;
         }
     }
